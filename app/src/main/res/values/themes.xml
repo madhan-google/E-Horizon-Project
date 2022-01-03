@@ -14,4 +14,8 @@
         <item name="fontFamily">@font/rosario_medium</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="input_text_layout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxStrokeColor">@color/teal_200</item>
+    </style>
 </resources>

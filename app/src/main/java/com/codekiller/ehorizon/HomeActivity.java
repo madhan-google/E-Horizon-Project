@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
+import com.codekiller.ehorizon.Fragments.AdminLoginFragment;
 import com.codekiller.ehorizon.Fragments.HomeFragment;
 import com.shrikanthravi.customnavigationdrawer2.data.MenuItem;
 import com.shrikanthravi.customnavigationdrawer2.widget.SNavigationDrawer;
@@ -25,6 +26,7 @@ public class HomeActivity extends AppCompatActivity {
         navigationDrawer = findViewById(R.id.drawer_layout);
         list.add(new MenuItem("Home", R.drawable.bg1));
         list.add(new MenuItem("Events", R.drawable.bg4));
+        list.add(new MenuItem("Admin", R.drawable.bg5));
         list.add(new MenuItem("About", R.drawable.bg6));
         navigationDrawer.setMenuItemList(list);
         navigationDrawer.setAppbarTitleTV("Home");
@@ -36,6 +38,13 @@ public class HomeActivity extends AppCompatActivity {
                 switch (position){
                     case 0:
                         loadFragment(new HomeFragment(HomeActivity.this));
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        loadFragment(new AdminLoginFragment(HomeActivity.this));
                         break;
                 }
             }

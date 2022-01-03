@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".Fragments.AdminLoginFragment">
+
+    <TextView
+        android:id="@+id/main_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="Login"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/anime1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/main_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/mail_id"
+        style="@style/input_text_layout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/anime1"
+        android:padding="5dp"
+        app:endIconDrawable="@drawable/ic_cancel"
+        app:endIconMode="clear_text"
+        app:helperText="Mail Id">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="mail id" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password_text"
+        style="@style/input_text_layout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/mail_id"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        app:endIconDrawable="@drawable/ic_cancel"
+        app:endIconMode="clear_text"
+        app:helperText="Mail Id">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="password" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/ok_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/password_text"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="10dp"
+        android:text="login" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancel_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/password_text"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="50dp"
+        android:text="cancel" />
+
+    <TextView
+        android:id="@+id/register_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ok_button"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Don't have an account"
+        android:textColor="@android:color/holo_red_dark" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/forgot_text"
+        android:textColor="@android:color/holo_red_dark"
+        android:text="Forgot password"
+        android:layout_below="@id/register_text"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        />
+</RelativeLayout>

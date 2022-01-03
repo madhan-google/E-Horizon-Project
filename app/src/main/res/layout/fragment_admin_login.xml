@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp"
+    tools:context=".Fragments.AdminLoginFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:text="Admin Login"
+        android:id="@+id/main_text"
+        android:layout_marginBottom="10dp"
+        android:textSize="25sp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/black"
+        />
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/anime1"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/main_text"
+        android:layout_centerHorizontal="true"
+        />
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/anime1"
+        android:padding="5dp"
+        app:helperText="Mail Id"
+        android:id="@+id/mail_id"
+        app:endIconMode="clear_text"
+        app:endIconDrawable="@drawable/ic_cancel"
+        style="@style/input_text_layout"
+        >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="mail id"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/mail_id"
+        android:padding="5dp"
+        app:helperText="Mail Id"
+        android:id="@+id/password_text"
+        android:layout_marginTop="10dp"
+        app:endIconMode="clear_text"
+        app:endIconDrawable="@drawable/ic_cancel"
+        style="@style/input_text_layout"
+        >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="password"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ok_button"
+        android:text="login"
+        android:layout_below="@id/password_text"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentLeft="true"
+        />
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancel_btn"
+        android:text="cancel"
+        android:layout_below="@id/password_text"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="10dp"
+        />
+</RelativeLayout>
