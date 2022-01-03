@@ -23,7 +23,6 @@
         android:id="@+id/main_text"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:fontFamily="@font/rosario_medium"
         />
 
 </RelativeLayout>
