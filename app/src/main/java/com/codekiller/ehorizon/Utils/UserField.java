@@ -1,9 +1,9 @@
 package com.codekiller.ehorizon.Utils;
 
 public class UserField {
-    String name, department, roll_no, year, gender, section, mailid, password, userid;
+    String name, department, roll_no, year, gender, section, mailid, password, userid, phNo;
 
-    public UserField(String name, String department, String roll_no, String year, String gender, String section, String mailid, String password, String userId) {
+    public UserField(String name, String department, String roll_no, String year, String gender, String section, String mailid, String password, String userId, String phNo) {
         this.name = name;
         this.department = department;
         this.roll_no = roll_no;
@@ -13,6 +13,7 @@ public class UserField {
         this.mailid = mailid;
         this.password = password;
         this.userid = userId;
+        this.phNo = phNo;
     }
 
     public String getUserid() {
@@ -85,5 +86,13 @@ public class UserField {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPhNo() {
+        return phNo;
+    }
+
+    public void setPhNo(String phNo) {
+        this.phNo = phNo;
     }
 }

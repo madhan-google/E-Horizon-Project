@@ -1,6 +1,8 @@
 package com.codekiller.ehorizon.Utils;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +11,38 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codekiller.ehorizon.HomeActivity;
 import com.codekiller.ehorizon.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
 public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.ViewHolder> {
+    public static final String TAG = "EVENT RECYCLER ADAPTER";
     List<Events> list;
     Context context;
+    DatabaseReference databaseReference, databaseReferenceUser;
+    ProgressDialog progressDialog;
+    Toaster toaster;
+
+    public EventRecyclerAdapter(List<Events> list, Context context) {
+        this.list = list;
+        this.context = context;
+//        this.databaseReference = databaseReference;
+        databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
+        databaseReferenceUser = FirebaseDatabase.getInstance().getReference("Users");
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setCanceledOnTouchOutside(false);
+        toaster = new Toaster(context);
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -33,13 +59,46 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         holder.descriptionView.setText(events.getDescription());
         holder.dateView.setText(events.getStartDate()+" - "+events.getEndDate());
         if(events.getFormLink().length()!=0){
+            holder.linkView.setVisibility(View.VISIBLE);
             holder.linkView.setText(events.getFormLink());
         }
         if(events.isRegisterNeed()) holder.registerBtn.setVisibility(View.VISIBLE);
         holder.registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.setMessage("registering..");
+                progressDialog.show();
+                String pushKey = databaseReference.push().getKey();
+                final UserField[] userField = new UserField[1];
+                databaseReferenceUser.child(HomeActivity.userId)
+                        .addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                userField[0] = (UserField) snapshot.getValue(UserField.class);
+                                Log.d(TAG, "onDataChange: user- "+userField[0].getDepartment());
+                            }
 
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                toaster.toast("something went wrong");
+                            }
+                        });
+                databaseReference.child(pushKey)
+                        .setValue(userField)
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                toaster.toast(e.getMessage());
+                                progressDialog.dismiss();
+                            }
+                        })
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                toaster.toast("registered successfully");
+                                progressDialog.dismiss();
+                            }
+                        });
             }
         });
     }

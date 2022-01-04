@@ -19,6 +19,7 @@ import com.shrikanthravi.customnavigationdrawer2.widget.SNavigationDrawer;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
+    public static String userId;
     public static final String TAG = "HOME ACTIVITY";
     SNavigationDrawer navigationDrawer;
     ArrayList<MenuItem> list;
@@ -30,13 +31,14 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         list = new ArrayList<>();
         navigationDrawer = findViewById(R.id.drawer_layout);
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         who = getIntent().getStringExtra("who");
         Log.d(TAG, "onCreate: who - "+who);
         list.add(new MenuItem("Home", R.drawable.bg1));
         list.add(new MenuItem("Events", R.drawable.bg4));
         list.add(new MenuItem("About", R.drawable.bg6));
-//        if(who!=null&&who.equals("admin")) list.add(new MenuItem("Admin", R.drawable.bg5));
         list.add(new MenuItem("Logout", R.drawable.bg3));
+        if(who!=null&&who.equals("admin")) list.add(new MenuItem("Admin", R.drawable.bg5));
         navigationDrawer.setMenuItemList(list);
         navigationDrawer.setAppbarTitleTV("Home");
         navigationDrawer.setAppbarColor(android.R.color.holo_blue_light);
@@ -59,6 +61,8 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                         finish();
                         break;
+                    case 4:
+                        loadFragment(new AdminLoginFragment(HomeActivity.this));
                 }
             }
         });

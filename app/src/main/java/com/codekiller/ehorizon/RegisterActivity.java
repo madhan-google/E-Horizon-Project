@@ -26,7 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public static final String TAG = "REGISTER ACTIVITY";
 
-    TextInputLayout nameLayout, deptLayout, rollNoLayout, yearLayout, genderLayout, sectionLayout, mailLayout, newPassLayout, confirmPassLayout;
+    TextInputLayout nameLayout, deptLayout, rollNoLayout, yearLayout, genderLayout, sectionLayout, mailLayout, newPassLayout, confirmPassLayout, phNoLayout;
     ImageView mainImage;
     MaterialButton registerBtn;
     FireBase fireBase;
@@ -47,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
         mailLayout = findViewById(R.id.mail_id_text);
         newPassLayout = findViewById(R.id.password_text);
         confirmPassLayout = findViewById(R.id.confirm_pass_text);
+        phNoLayout = findViewById(R.id.phno_text);
         registerBtn = findViewById(R.id.register_btn);
         mainImage = findViewById(R.id.main_anime);
         fireBase = new FireBase();
@@ -67,8 +68,9 @@ public class RegisterActivity extends AppCompatActivity {
                 String section = sectionLayout.getEditText().getText().toString();
                 String mailId = mailLayout.getEditText().getText().toString();
                 String newPass = newPassLayout.getEditText().getText().toString();
+                String phNo = phNoLayout.getEditText().getText().toString();
                 String confirmPass = confirmPassLayout.getEditText().getText().toString();
-                if(len(name)&&len(dept)&&len(rollNo)&&len(year)&&len(gender)&&len(section)&&len(mailId)&&len(newPass)&&len(confirmPass)){
+                if(len(name)&&len(dept)&&len(rollNo)&&len(year)&&len(gender)&&len(section)&&len(mailId)&&len(newPass)&&len(confirmPass)&&len(phNo)){
                     if(newPass.equals(confirmPass)){
                         if(newPass.length()>6){
                             if(mailId.endsWith("@gmail.com")||mailId.endsWith(".edu")){
@@ -79,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             public void onSuccess(AuthResult authResult) {
                                                 String userid = authResult.getUser().getUid();
                                                 Log.d(TAG, "onClick: user id - "+userid);
-                                                userField = new UserField(name,dept,rollNo,year,gender,section,mailId,newPass, userid);
+                                                userField = new UserField(name,dept,rollNo,year,gender,section,mailId,newPass, userid, phNo);
                                                 databaseReference.child(userid).setValue(userField)
                                                         .addOnFailureListener(new OnFailureListener() {
                                                             @Override

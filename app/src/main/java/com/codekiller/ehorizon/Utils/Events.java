@@ -1,10 +1,10 @@
 package com.codekiller.ehorizon.Utils;
 
 public class Events {
-    String title, dept, startDate, endDate ,description, formLink, pictureUrl, coordinatorName;
+    String title, dept, startDate, endDate ,description, formLink, pictureUrl, coordinatorName, pushKey;
     boolean isRegisterNeed;
 
-    public Events(String title, String dept, String startDate, String endDate, String description, String formLink, String pictureUrl, String coordinatorName, boolean isRegisterNeed) {
+    public Events(String title, String dept, String startDate, String endDate, String description, String formLink, String pictureUrl, String coordinatorName, boolean isRegisterNeed, String pushKey) {
         this.title = title;
         this.dept = dept;
         this.startDate = startDate;
@@ -15,6 +15,7 @@ public class Events {
 //        this.registrationCloseDate = registrationCloseDate;
         this.coordinatorName = coordinatorName;
         this.isRegisterNeed = isRegisterNeed;
+        this.pushKey = pushKey;
     }
 
     public String getTitle() {
@@ -80,6 +81,15 @@ public class Events {
 //    public void setRegistrationCloseDate(String registrationCloseDate) {
 //        this.registrationCloseDate = registrationCloseDate;
 //    }
+
+
+    public String getPushKey() {
+        return pushKey;
+    }
+
+    public void setPushKey(String pushKey) {
+        this.pushKey = pushKey;
+    }
 
     public String getCoordinatorName() {
         return coordinatorName;
