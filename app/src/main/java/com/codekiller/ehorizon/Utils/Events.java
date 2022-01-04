@@ -4,6 +4,9 @@ public class Events {
     String title, dept, startDate, endDate ,description, formLink, pictureUrl, coordinatorName, pushKey;
     boolean isRegisterNeed;
 
+    public Events() {
+    }
+
     public Events(String title, String dept, String startDate, String endDate, String description, String formLink, String pictureUrl, String coordinatorName, boolean isRegisterNeed, String pushKey) {
         this.title = title;
         this.dept = dept;

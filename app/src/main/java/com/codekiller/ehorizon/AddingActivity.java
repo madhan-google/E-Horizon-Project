@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -34,6 +36,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.Calendar;
+
 public class AddingActivity extends AppCompatActivity {
 
     public static final String TAG = "ADDING ACTIVITY";
@@ -52,6 +56,7 @@ public class AddingActivity extends AppCompatActivity {
     StorageReference storageReference;
 
     Toaster toaster;
+    Calendar calendar;
 
     ProgressDialog progressDialog;
 
@@ -75,11 +80,39 @@ public class AddingActivity extends AppCompatActivity {
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("Adding Event ..");
         toaster = new Toaster(this);
+        calendar = Calendar.getInstance();
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Events");
-        storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("EventsPhotos");
+        storageReference = FirebaseStorage.getInstance().getReference("EventsPhotos");
 
-
+        startDateLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(AddingActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        month = month+1;
+                        String date = dayOfMonth+"/"+month+"/"+year;
+                        startDateLayout.getEditText().setText(date);
+                    }
+                },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
+        endDateLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(AddingActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        month = month+1;
+                        String date = dayOfMonth+"/"+month+"/"+year;
+                        endDateLayout.getEditText().setText(date);
+                    }
+                },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +164,7 @@ public class AddingActivity extends AppCompatActivity {
                                                                     @Override
                                                                     public void onSuccess(Void aVoid) {
                                                                         toaster.toast("Event has been added successfully");
+                                                                        finish();
                                                                         progressDialog.dismiss();
                                                                     }
                                                                 });
@@ -153,11 +187,40 @@ public class AddingActivity extends AppCompatActivity {
                                     }
                                 });
                     }else{
-                        toaster.toast("fill above fields");
+                        String finalFormlink = formlink;
+                        String pushKey = databaseReference.push().getKey();
+                        Events events = new Events(title,dept,startDate,endDate,description, finalFormlink,"default",coordinator,isRegistrationNeed,pushKey);
+                        databaseReference.child(pushKey)
+                                .setValue(events)
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        toaster.toast(e.getMessage());
+                                        progressDialog.dismiss();
+                                    }
+                                })
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        toaster.toast("Event has been added successfully");
+                                        finish();
+                                        progressDialog.dismiss();
+                                    }
+                                });
                     }
+                }else{
+                    toaster.toast("fill above fields");
                 }
             }
         });
+    }
+    public void onRadioButtonClicked(View v){
+        int id = radioGroup.getCheckedRadioButtonId();
+        if(id==R.id.radio1){
+            isRegistrationNeed = true;
+        }else{
+            isRegistrationNeed = false;
+        }
     }
     public static boolean ok(String s){
         return s.length()!=0;

@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,12 +29,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
+    public static final String TAG = "LOGIN ACTIVITY";
+
     ImageView mainImage;
     TextInputLayout mailText, passText;
     MaterialButton loginBtn, cancelBtn;
     TextView forgotText, registerText;
     Toaster toaster;
     ProgressDialog progressDialog;
+
+    SharedPreferences sharedPreferences;
 
     DatabaseReference databaseAdmin, databaseUser;
     @Override
@@ -49,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         toaster = new Toaster(this);
 
         databaseAdmin = FirebaseDatabase.getInstance().getReference("Admin");
+        sharedPreferences = getApplicationContext().getSharedPreferences("com.codekiller.ehorizon", Context.MODE_PRIVATE);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Logging In");
@@ -74,8 +81,8 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
                                     String userId = authResult.getUser().getUid();
-                                    DatabaseReference reference = databaseAdmin.child(userId);
-                                    databaseAdmin.addValueEventListener(new ValueEventListener() {
+                                    databaseAdmin.child(userId)
+                                    .addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -83,14 +90,17 @@ public class LoginActivity extends AppCompatActivity {
 
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError error) {
-                                            toaster.toast("logged in");
+//                                            toaster.toast("logged in");
+                                            toaster.toast(error.getMessage());
                                             progressDialog.dismiss();
+                                            sharedPreferences.edit().putString("who", "user").apply();
                                             startActivity(new Intent(LoginActivity.this, HomeActivity.class).putExtra("who", "user"));
                                             finish();
                                         }
                                     });
                                     toaster.toast("logged in");
                                     progressDialog.dismiss();
+                                    sharedPreferences.edit().putString("who", "admin").apply();
                                     startActivity(new Intent(LoginActivity.this, HomeActivity.class).putExtra("who", "admin"));
                                     finish();
                                 }
@@ -123,7 +133,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if(FirebaseAuth.getInstance().getCurrentUser()!=null){
-            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            String who = sharedPreferences.getString("who", null);
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class).putExtra("who", who));
             finish();
         }
     }

@@ -46,6 +46,8 @@
             android:layout_height="150dp"
             android:id="@+id/image_view"
             android:layout_below="@id/coordinate_view"
+            android:visibility="gone"
+            tools:visibility="visible"
             />
         <TextView
             android:layout_width="match_parent"

@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.codekiller.ehorizon.AddingActivity;
 import com.codekiller.ehorizon.HomeActivity;
 import com.codekiller.ehorizon.R;
@@ -64,12 +65,13 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         holder.coordinateView.setText("- "+events.getCoordinatorName()+" from "+events.getDept());
         holder.descriptionView.setText(events.getDescription());
         holder.dateView.setText(events.getStartDate()+" - "+events.getEndDate());
+        Glide.with(context).load(events.getPictureUrl().equals("default")?R.drawable.notes_image:events.getPictureUrl()).into(holder.eventImage);
         if(events.getFormLink().length()!=0){
             holder.linkView.setVisibility(View.VISIBLE);
             holder.linkView.setText(events.getFormLink());
         }
         if(events.isRegisterNeed()) holder.registerBtn.setVisibility(View.VISIBLE);
-        if(who.equals("admiin")) holder.editBtn.setVisibility(View.VISIBLE);
+        if(who!=null&&who.equals("admin")) holder.editBtn.setVisibility(View.VISIBLE);
         holder.editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,9 +127,10 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 //        CardView cardView;
         TextView titleView, coordinateView, descriptionView, dateView, linkView;
         MaterialButton registerBtn;
-        ImageView editBtn;
+        ImageView editBtn, eventImage;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            eventImage = itemView.findViewById(R.id.image_view);
             titleView = itemView.findViewById(R.id.title_view);
             coordinateView = itemView.findViewById(R.id.coordinate_view);
             descriptionView = itemView.findViewById(R.id.description_view);
