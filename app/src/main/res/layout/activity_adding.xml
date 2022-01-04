@@ -25,6 +25,7 @@
             android:id="@+id/image_view"
             android:layout_width="match_parent"
             android:layout_height="180dp"
+            android:src="@drawable/notes_image"
             android:layout_below="@id/main_text"
             android:layout_marginBottom="10dp" />
 
