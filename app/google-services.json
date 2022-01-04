@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "694639904096",
+    "project_id": "ehorizon",
+    "storage_bucket": "ehorizon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694639904096:android:a95b5abc8390e0860aca05",
+        "android_client_info": {
+          "package_name": "com.codekiller.ehorizon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "694639904096-2s5td1n9s4rms3c04jhqb5tlil86ok3l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVz1SIAyl_66SRLr9sM60sOeK2ulSqdtE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "694639904096-2s5td1n9s4rms3c04jhqb5tlil86ok3l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

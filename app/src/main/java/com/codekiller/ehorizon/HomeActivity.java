@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.codekiller.ehorizon.Fragments.AdminLoginFragment;
+import com.codekiller.ehorizon.Fragments.EventFragment;
 import com.codekiller.ehorizon.Fragments.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.shrikanthravi.customnavigationdrawer2.data.MenuItem;
@@ -48,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
                         loadFragment(new HomeFragment(HomeActivity.this));
                         break;
                     case 1:
+                        loadFragment(new EventFragment(HomeActivity.this, who));
                         break;
                     case 2:
 //                        loadFragment(new AdminLoginFragment(HomeActivity.this));

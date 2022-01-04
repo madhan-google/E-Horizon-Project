@@ -21,6 +21,16 @@
         android:layout_height="match_parent"
         android:id="@+id/recycler_view"
         android:layout_below="@id/main_text"
+        android:layout_above="@id/add_btn"
+        />
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_btn"
+        android:text="add event"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
         />
 
 </RelativeLayout>

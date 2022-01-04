@@ -12,12 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.codekiller.ehorizon.R;
+import com.google.android.material.button.MaterialButton;
 
 public class EventFragment extends Fragment {
     Context context;
     RecyclerView recyclerView;
-    public EventFragment(Context context) {
+    MaterialButton materialButton;
+    String who;
+    public EventFragment(Context context, String who) {
         // Required empty public constructor
+        this.who = who;
         this.context = context;
     }
     @Override
@@ -31,9 +35,11 @@ public class EventFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_event, container, false);
+        materialButton = v.findViewById(R.id.add_btn);
         recyclerView = v.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setHasFixedSize(true);
+        if(who.equals("admin")) materialButton.setVisibility(View.VISIBLE);
         return v;
     }
 }
