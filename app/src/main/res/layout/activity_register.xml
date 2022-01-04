@@ -63,8 +63,84 @@
             app:endIconMode="clear_text"
             app:endIconDrawable="@drawable/ic_cancel"
             android:padding="5dp"
-            android:id="@+id/mail_id_text"
+            android:id="@+id/roll_no_text"
             android:layout_below="@id/dept_text"
+            android:layout_marginTop="10dp"
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Roll no"
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="120dp"
+            android:layout_height="70dp"
+            app:helperText="Mandatory"
+            style="@style/input_text_layout"
+            app:endIconMode="clear_text"
+            app:endIconDrawable="@drawable/ic_cancel"
+            android:padding="5dp"
+            android:id="@+id/year_text"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/roll_no_text"
+            android:layout_marginTop="10dp"
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="year"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="100dp"
+            android:layout_height="70dp"
+            app:helperText="Mandatory"
+            style="@style/input_text_layout"
+            app:endIconMode="clear_text"
+            app:endIconDrawable="@drawable/ic_cancel"
+            android:padding="5dp"
+            android:id="@+id/section_text"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/roll_no_text"
+            android:layout_marginTop="10dp"
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Section"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="120dp"
+            android:layout_height="70dp"
+            app:helperText="Mandatory"
+            style="@style/input_text_layout"
+            app:endIconMode="clear_text"
+            app:endIconDrawable="@drawable/ic_cancel"
+            android:padding="5dp"
+            android:id="@+id/gender_text"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/roll_no_text"
+            android:layout_marginTop="10dp"
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Gender"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            app:helperText="Mandatory"
+            style="@style/input_text_layout"
+            app:endIconMode="clear_text"
+            app:endIconDrawable="@drawable/ic_cancel"
+            android:padding="5dp"
+            android:id="@+id/mail_id_text"
+            android:layout_below="@id/year_text"
             android:layout_marginTop="10dp"
             >
             <EditText
@@ -88,6 +164,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:hint="New password"
                 />
         </com.google.android.material.textfield.TextInputLayout>
@@ -106,8 +183,17 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:hint="Confirm password"
                 />
         </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/register_btn"
+            android:layout_below="@id/confirm_pass_text"
+            android:layout_centerHorizontal="true"
+            android:text="register"
+            />
     </RelativeLayout>
 </ScrollView>

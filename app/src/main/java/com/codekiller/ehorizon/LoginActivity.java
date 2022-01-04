@@ -3,6 +3,7 @@ package com.codekiller.ehorizon;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,11 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
     ImageView mainImage;
@@ -26,19 +32,27 @@ public class LoginActivity extends AppCompatActivity {
     MaterialButton loginBtn, cancelBtn;
     TextView forgotText, registerText;
     Toaster toaster;
+    ProgressDialog progressDialog;
 
+    DatabaseReference databaseAdmin, databaseUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mailText = findViewById(R.id.mail_id);
         passText = findViewById(R.id.password_text);
-        mainImage = findViewById(R.id.main_image);
+        mainImage = findViewById(R.id.anime1);
         loginBtn = findViewById(R.id.ok_button);
         cancelBtn = findViewById(R.id.cancel_btn);
         forgotText = findViewById(R.id.forgot_text);
         registerText = findViewById(R.id.register_text);
         toaster = new Toaster(this);
+
+        databaseAdmin = FirebaseDatabase.getInstance().getReference("Admin");
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Logging In");
+        progressDialog.setCanceledOnTouchOutside(false);
 
         Glide.with(this).load(R.drawable.loading_gif).into(mainImage);
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -47,18 +61,38 @@ public class LoginActivity extends AppCompatActivity {
                 String mail = mailText.getEditText().getText().toString();
                 String pass = passText.getEditText().getText().toString();
                 if(mail.length()!=0&&pass.length()!=0){
+                    progressDialog.show();
                     FirebaseAuth.getInstance().signInWithEmailAndPassword(mail, pass)
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     toaster.toast("something went wrong");
+                                    progressDialog.dismiss();
                                 }
                             })
                             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
+                                    String userId = authResult.getUser().getUid();
+                                    DatabaseReference reference = databaseAdmin.child(userId);
+                                    databaseAdmin.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            toaster.toast("logged in");
+                                            progressDialog.dismiss();
+                                            startActivity(new Intent(LoginActivity.this, HomeActivity.class).putExtra("who", "user"));
+                                            finish();
+                                        }
+                                    });
                                     toaster.toast("logged in");
+                                    progressDialog.dismiss();
                                     startActivity(new Intent(LoginActivity.this, HomeActivity.class).putExtra("who", "admin"));
+                                    finish();
                                 }
                             });
                 }
@@ -80,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
         registerText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
     }

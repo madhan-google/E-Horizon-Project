@@ -24,13 +24,13 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                YoYo.with(Techniques.BounceInUp).duration(200).playOn(textView);
+                YoYo.with(Techniques.BounceInUp).duration(1000).playOn(textView);
             }
         }, 100);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                YoYo.with(Techniques.BounceInDown).duration(200).playOn(imageView);
+                YoYo.with(Techniques.BounceInDown).duration(1000).playOn(imageView);
             }
         }, 100);
 //        new Thread(new Runnable() {
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
 //                Intent intent = ;
-                startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();
             }
         }, 2000);

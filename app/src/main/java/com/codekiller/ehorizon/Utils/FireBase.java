@@ -6,7 +6,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class FireBase {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-    FireBase(){
+    public FireBase(){
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Admin");
     }

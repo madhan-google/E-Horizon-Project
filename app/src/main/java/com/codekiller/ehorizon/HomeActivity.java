@@ -5,18 +5,23 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.codekiller.ehorizon.Fragments.AdminLoginFragment;
 import com.codekiller.ehorizon.Fragments.HomeFragment;
+import com.google.firebase.auth.FirebaseAuth;
 import com.shrikanthravi.customnavigationdrawer2.data.MenuItem;
 import com.shrikanthravi.customnavigationdrawer2.widget.SNavigationDrawer;
 
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
+    public static final String TAG = "HOME ACTIVITY";
     SNavigationDrawer navigationDrawer;
     ArrayList<MenuItem> list;
+    String who;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +29,13 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         list = new ArrayList<>();
         navigationDrawer = findViewById(R.id.drawer_layout);
+        who = getIntent().getStringExtra("who");
+        Log.d(TAG, "onCreate: who - "+who);
         list.add(new MenuItem("Home", R.drawable.bg1));
         list.add(new MenuItem("Events", R.drawable.bg4));
-        list.add(new MenuItem("Admin", R.drawable.bg5));
         list.add(new MenuItem("About", R.drawable.bg6));
+//        if(who!=null&&who.equals("admin")) list.add(new MenuItem("Admin", R.drawable.bg5));
+        list.add(new MenuItem("Logout", R.drawable.bg3));
         navigationDrawer.setMenuItemList(list);
         navigationDrawer.setAppbarTitleTV("Home");
         navigationDrawer.setAppbarColor(android.R.color.holo_blue_light);
@@ -42,9 +50,12 @@ public class HomeActivity extends AppCompatActivity {
                     case 1:
                         break;
                     case 2:
+//                        loadFragment(new AdminLoginFragment(HomeActivity.this));
                         break;
                     case 3:
-                        loadFragment(new AdminLoginFragment(HomeActivity.this));
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                        finish();
                         break;
                 }
             }
