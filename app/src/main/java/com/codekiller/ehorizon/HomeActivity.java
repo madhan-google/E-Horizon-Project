@@ -5,7 +5,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import android.app.Service;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -18,12 +23,14 @@ import com.shrikanthravi.customnavigationdrawer2.widget.SNavigationDrawer;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements SensorEventListener {
     public static String userId;
     public static final String TAG = "HOME ACTIVITY";
     SNavigationDrawer navigationDrawer;
     ArrayList<MenuItem> list;
     String who;
+    SensorManager sensorManager;
+    Sensor sensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +41,8 @@ public class HomeActivity extends AppCompatActivity {
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         who = getIntent().getStringExtra("who");
         Log.d(TAG, "onCreate: who - "+who);
+        sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         list.add(new MenuItem("Home", R.drawable.bg1));
         list.add(new MenuItem("Events", R.drawable.bg4));
         list.add(new MenuItem("About", R.drawable.bg6));
@@ -58,7 +67,7 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                     case 3:
                         FirebaseAuth.getInstance().signOut();
-                        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+//                        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                         finish();
                         break;
                     case 4:
@@ -84,5 +93,18 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 //        loadFragment(new HomeFragment(this));
+        sensorManager.registerListener((SensorEventListener) this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if(event.sensor.getType()==Sensor.TYPE_PROXIMITY){
+            if(event.values[0]<5) finish();
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 }

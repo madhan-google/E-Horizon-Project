@@ -2,15 +2,19 @@ package com.codekiller.ehorizon.Utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codekiller.ehorizon.AddingActivity;
 import com.codekiller.ehorizon.HomeActivity;
 import com.codekiller.ehorizon.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,8 +35,10 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     DatabaseReference databaseReference, databaseReferenceUser;
     ProgressDialog progressDialog;
     Toaster toaster;
+    String who;
 
-    public EventRecyclerAdapter(List<Events> list, Context context) {
+    public EventRecyclerAdapter(List<Events> list, Context context, String who) {
+        this.who = who;
         this.list = list;
         this.context = context;
 //        this.databaseReference = databaseReference;
@@ -63,6 +69,13 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             holder.linkView.setText(events.getFormLink());
         }
         if(events.isRegisterNeed()) holder.registerBtn.setVisibility(View.VISIBLE);
+        if(who.equals("admiin")) holder.editBtn.setVisibility(View.VISIBLE);
+        holder.editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                context.startActivity(new Intent(context, AddingActivity.class));
+            }
+        });
         holder.registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,8 +122,10 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
+//        CardView cardView;
         TextView titleView, coordinateView, descriptionView, dateView, linkView;
         MaterialButton registerBtn;
+        ImageView editBtn;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             titleView = itemView.findViewById(R.id.title_view);
@@ -119,6 +134,8 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             dateView = itemView.findViewById(R.id.date_text);
             linkView = itemView.findViewById(R.id.link_text);
             registerBtn = itemView.findViewById(R.id.register_btn);
+            editBtn = itemView.findViewById(R.id.edit_icon);
+//            cardView = itemView.findViewById(R.id.relative_layout);
         }
     }
 }

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddingActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/main_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="Add New Event"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_below="@id/main_text"
+            android:layout_marginBottom="10dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/title_text"
+            style="@style/input_text_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image_view"
+            android:layout_marginBottom="10dp"
+            android:padding="5dp"
+            app:endIconDrawable="@drawable/ic_cancel"
+            app:endIconMode="clear_text"
+            app:helperText="Mandatory">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Title" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/description_text"
+            style="@style/input_text_layout"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@id/title_text"
+            android:layout_marginBottom="10dp"
+            android:padding="5dp"
+            app:endIconDrawable="@drawable/ic_cancel"
+            app:endIconMode="clear_text"
+            app:helperText="Mandatory">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:gravity="left|top"
+                android:hint="Description" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/coordinat_name"
+            style="@style/input_text_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/description_text"
+            android:layout_marginBottom="10dp"
+            android:padding="5dp"
+            app:endIconDrawable="@drawable/ic_cancel"
+            app:endIconMode="clear_text"
+            app:helperText="Mandatory">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Coordinator name" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dept_name"
+            style="@style/input_text_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/coordinat_name"
+            android:layout_marginBottom="10dp"
+            android:padding="5dp"
+            app:endIconDrawable="@drawable/ic_cancel"
+            app:endIconMode="clear_text"
+            app:helperText="Mandatory">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Department" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/start_date_text"
+            style="@style/input_text_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dept_name"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="215dp"
+            android:layout_marginBottom="10dp"
+            android:padding="5dp"
+            app:endIconDrawable="@drawable/ic_cancel"
+            app:endIconMode="clear_text"
+            app:helperText="Mandatory">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Start Date" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/end_date_text"
+            style="@style/input_text_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dept_name"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="215dp"
+            android:layout_marginBottom="10dp"
+            android:padding="5dp"
+            app:endIconDrawable="@drawable/ic_cancel"
+            app:endIconMode="clear_text"
+            app:helperText="Mandatory">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="End Date" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/form_link_text"
+            style="@style/input_text_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/start_date_text"
+            android:layout_marginBottom="10dp"
+            android:padding="5dp"
+            app:endIconDrawable="@drawable/ic_cancel"
+            app:endIconMode="clear_text"
+            app:helperText="if any form has">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Form link" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/radio_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/form_link_text"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            android:text="Ragistration Need ?"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/form_link_text"
+            android:layout_marginLeft="180dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio1"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:text="Yes" />
+
+            <RadioButton
+                android:id="@+id/radio2"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="No" />
+        </RadioGroup>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/radio_group"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="add event" />
+    </RelativeLayout>
+
+</ScrollView>
