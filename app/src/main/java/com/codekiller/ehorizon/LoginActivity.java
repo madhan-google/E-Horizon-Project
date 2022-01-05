@@ -81,27 +81,18 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
                                     String userId = authResult.getUser().getUid();
-                                    databaseAdmin.child(userId)
-                                    .addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-//                                            toaster.toast("logged in");
-                                            toaster.toast(error.getMessage());
-                                            progressDialog.dismiss();
-                                            sharedPreferences.edit().putString("who", "user").apply();
-                                            startActivity(new Intent(LoginActivity.this, HomeActivity.class).putExtra("who", "user"));
-                                            finish();
-                                        }
-                                    });
-                                    toaster.toast("logged in");
+                                    Log.d(TAG, "onSuccess: user id - "+userId);
+                                    String who = "";
+                                    if(userId.equals("VBBk17vuFUYo2TYhfLpmYFmzei83")){
+                                        who = "admin";
+                                    }else{
+                                        who = "user";
+                                    }
+//                                    toaster.toast(error.getMessage());
+                                    Log.d(TAG, "onSuccess: who - user");
                                     progressDialog.dismiss();
-                                    sharedPreferences.edit().putString("who", "admin").apply();
-                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class).putExtra("who", "admin"));
+                                    sharedPreferences.edit().putString("who", who).apply();
+                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class).putExtra("who", who));
                                     finish();
                                 }
                             });

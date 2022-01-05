@@ -35,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
 
 import java.util.Calendar;
 
@@ -60,6 +61,9 @@ public class AddingActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
 
+    Events events;
+    String obj;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +88,21 @@ public class AddingActivity extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Events");
         storageReference = FirebaseStorage.getInstance().getReference("EventsPhotos");
+
+        obj = getIntent().getStringExtra("what");
+        if(obj!=null){
+            events = new Gson().fromJson(obj, Events.class);
+            mainView.setText("update event");
+            addBtn.setText("Update");
+            titleLayout.getEditText().setText(events.getTitle());
+            descriptionLayout.getEditText().setText(events.getDescription());
+            coordinateLayout.getEditText().setText(events.getCoordinatorName());
+            deptLayout.getEditText().setText(events.getDept());
+            startDateLayout.getEditText().setText(events.getStartDate());
+            endDateLayout.getEditText().setText(events.getEndDate());
+            formLinkLayout.getEditText().setText(events.getFormLink());
+            Glide.with(this).load(events.getPictureUrl()).into(imageView);
+        }
 
         startDateLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +153,7 @@ public class AddingActivity extends AppCompatActivity {
                 String dept = deptLayout.getEditText().getText().toString();
                 String startDate = startDateLayout.getEditText().getText().toString();
                 String endDate = endDateLayout.getEditText().getText().toString();
-                String formlink = descriptionLayout.getEditText().getText().toString();
+                String formlink = formLinkLayout.getEditText().getText().toString();
                 formlink = ok(formlink)?formlink:"no link";
                 if(ok(title)&&ok(description)&&ok(dept)&&ok(startDate)&&ok(coordinator)&&ok(endDate)){
                     if(imageUrl!=null){
@@ -149,10 +168,20 @@ public class AddingActivity extends AppCompatActivity {
                                                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                     @Override
                                                     public void onSuccess(Uri uri) {
-                                                        String pushKey = databaseReference.push().getKey();
-                                                        Events events = new Events(title,dept,startDate,endDate,description, finalFormlink,uri.toString(),coordinator,isRegistrationNeed,pushKey);
+                                                        String pushKey = obj!=null?events.getPushKey():databaseReference.push().getKey();
+                                                        Events events1 = null;
+                                                        if(obj==null) events1 = new Events(title,dept,startDate,endDate,description, finalFormlink,uri==null?events!=null?events.getPictureUrl():"default":uri.toString(),coordinator,isRegistrationNeed,pushKey);
+                                                        else{
+                                                            events.setCoordinatorName(coordinator);
+                                                            events.setDept(dept);
+                                                            events.setDescription(description);
+                                                            events.setEndDate(endDate);
+                                                            events.setFormLink(finalFormlink);
+                                                            events.setEndDate(endDate);
+                                                            events.setTitle(title);
+                                                        }
                                                         databaseReference.child(pushKey)
-                                                                .setValue(events)
+                                                                .setValue(obj!=null?events:events1)
                                                                 .addOnFailureListener(new OnFailureListener() {
                                                                     @Override
                                                                     public void onFailure(@NonNull Exception e) {

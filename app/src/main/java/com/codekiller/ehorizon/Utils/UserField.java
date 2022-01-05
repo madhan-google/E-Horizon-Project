@@ -3,6 +3,9 @@ package com.codekiller.ehorizon.Utils;
 public class UserField {
     String name, department, roll_no, year, gender, section, mailid, password, userid, phNo;
 
+    public UserField() {
+    }
+
     public UserField(String name, String department, String roll_no, String year, String gender, String section, String mailid, String password, String userId, String phNo) {
         this.name = name;
         this.department = department;

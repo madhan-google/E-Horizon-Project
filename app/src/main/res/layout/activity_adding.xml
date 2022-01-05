@@ -182,6 +182,7 @@
             <RadioButton
                 android:id="@+id/radio1"
                 android:layout_width="80dp"
+                android:onClick="onRadioButtonClicked"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="30dp"
                 android:text="Yes" />
@@ -189,6 +190,7 @@
             <RadioButton
                 android:id="@+id/radio2"
                 android:layout_width="80dp"
+                android:onClick="onRadioButtonClicked"
                 android:layout_height="wrap_content"
                 android:text="No" />
         </RadioGroup>

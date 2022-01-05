@@ -1,7 +1,9 @@
 package com.codekiller.ehorizon.Utils;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +28,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -33,7 +38,8 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     public static final String TAG = "EVENT RECYCLER ADAPTER";
     List<Events> list;
     Context context;
-    DatabaseReference databaseReference, databaseReferenceUser;
+    DatabaseReference databaseReference, databaseReferenceUser, databaseReferenceEvents;
+//    StorageReference storageReference;
     ProgressDialog progressDialog;
     Toaster toaster;
     String who;
@@ -45,6 +51,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 //        this.databaseReference = databaseReference;
         databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
         databaseReferenceUser = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReferenceEvents = FirebaseDatabase.getInstance().getReference("Events");
         progressDialog = new ProgressDialog(context);
         progressDialog.setCanceledOnTouchOutside(false);
         toaster = new Toaster(context);
@@ -75,7 +82,8 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         holder.editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                context.startActivity(new Intent(context, AddingActivity.class));
+                String obj = new Gson().toJson(events);
+                context.startActivity(new Intent(context, AddingActivity.class).putExtra("what", obj));
             }
         });
         holder.registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -89,8 +97,24 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                         .addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                userField[0] = (UserField) snapshot.getValue(UserField.class);
+                                userField[0] = snapshot.getValue(UserField.class);
                                 Log.d(TAG, "onDataChange: user- "+userField[0].getDepartment());
+                                databaseReference.child(pushKey)
+                                        .setValue(userField[0])
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                toaster.toast(e.getMessage());
+                                                progressDialog.dismiss();
+                                            }
+                                        })
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                toaster.toast("registered successfully");
+                                                progressDialog.dismiss();
+                                            }
+                                        });
                             }
 
                             @Override
@@ -98,22 +122,41 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                                 toaster.toast("something went wrong");
                             }
                         });
-                databaseReference.child(pushKey)
-                        .setValue(userField)
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                toaster.toast(e.getMessage());
-                                progressDialog.dismiss();
-                            }
-                        })
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                toaster.toast("registered successfully");
-                                progressDialog.dismiss();
-                            }
-                        });
+            }
+        });
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if(who.equals("admin")){
+                    new AlertDialog.Builder(context)
+                            .setIcon(android.R.drawable.ic_delete)
+                            .setMessage("Are you sure")
+                            .setTitle("Delete")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if(!events.getPictureUrl().equals("default"))FirebaseStorage.getInstance().getReferenceFromUrl(events.getPictureUrl()).delete();
+                                    Log.d(TAG, "onClick: pushkey - "+events.getPushKey());
+                                    databaseReferenceEvents.child(events.getPushKey()).removeValue()
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    toaster.toast("deleted successfully");
+                                                    notifyDataSetChanged();
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    toaster.toast(e.getMessage());
+                                                }
+                                            });
+                                }
+                            })
+                            .setNegativeButton("No", null)
+                            .show();
+                }
+                return true;
             }
         });
     }
@@ -124,7 +167,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-//        CardView cardView;
+        CardView cardView;
         TextView titleView, coordinateView, descriptionView, dateView, linkView;
         MaterialButton registerBtn;
         ImageView editBtn, eventImage;
@@ -138,7 +181,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             linkView = itemView.findViewById(R.id.link_text);
             registerBtn = itemView.findViewById(R.id.register_btn);
             editBtn = itemView.findViewById(R.id.edit_icon);
-//            cardView = itemView.findViewById(R.id.relative_layout);
+            cardView = itemView.findViewById(R.id.relative_layout);
         }
     }
 }

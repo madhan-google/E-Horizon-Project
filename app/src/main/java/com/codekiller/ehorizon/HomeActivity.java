@@ -30,7 +30,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     ArrayList<MenuItem> list;
     String who;
     SensorManager sensorManager;
-    Sensor sensor;
+    Sensor sensor, sensorAcc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         Log.d(TAG, "onCreate: who - "+who);
         sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        sensorAcc = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         list.add(new MenuItem("Home", R.drawable.bg1));
         list.add(new MenuItem("Events", R.drawable.bg4));
         list.add(new MenuItem("About", R.drawable.bg6));
@@ -93,13 +94,23 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     protected void onResume() {
         super.onResume();
 //        loadFragment(new HomeFragment(this));
+        sensorManager.registerListener(this, sensorAcc, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener((SensorEventListener) this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(this);
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         if(event.sensor.getType()==Sensor.TYPE_PROXIMITY){
             if(event.values[0]<5) finish();
+        }
+        if(event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
+            Log.d(TAG, "onSensorChanged: x = "+event.values[0]+" y = "+event.values[1]+" z = "+event.values[2]);
         }
     }
 
