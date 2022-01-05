@@ -32,12 +32,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class EventFragment extends Fragment implements SensorEventListener {
 
     SensorManager sensorManager;
-    Sensor sensor;
+    Sensor sensor, sensorAcc;
 
     Context context;
     RecyclerView recyclerView;
@@ -49,6 +50,7 @@ public class EventFragment extends Fragment implements SensorEventListener {
     Toaster toaster;
 
     ProgressDialog progressDialog;
+    EventRecyclerAdapter eventRecyclerAdapter;
 
     public EventFragment() {
     }
@@ -65,6 +67,7 @@ public class EventFragment extends Fragment implements SensorEventListener {
         databaseReference = FirebaseDatabase.getInstance().getReference("Events");
         sensorManager = (SensorManager) context.getSystemService(Service.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        sensorAcc = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,7 +98,9 @@ public class EventFragment extends Fragment implements SensorEventListener {
                      for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                          list.add(dataSnapshot.getValue(Events.class));
                      }
-                     recyclerView.setAdapter(new EventRecyclerAdapter(list, context, who));
+                     Collections.reverse(list);
+                     eventRecyclerAdapter = new EventRecyclerAdapter(list, context, who);
+                     recyclerView.setAdapter(eventRecyclerAdapter);
                      progressDialog.dismiss();
             }
 
@@ -116,6 +121,27 @@ public class EventFragment extends Fragment implements SensorEventListener {
         if(event.sensor.getType()==Sensor.TYPE_PROXIMITY){
             if(event.values[0]<5) getActivity().finish();
         }
+        if(event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
+            if(event.values[1]<-2&&event.values[1]>-4){
+//                recyclerView.scrollToPosition(eventRecyclerAdapter.getPosi()<0?0:eventRecyclerAdapter.getPosi()-1);
+                recyclerView.smoothScrollToPosition(0);
+//                recyclerView.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        recyclerView.smoothScrollToPosition(eventRecyclerAdapter.getItemCount()+1);
+//                    }
+//                });
+            }else if(event.values[1]>4&&event.values[1]<6){
+//                recyclerView.scrollToPosition(eventRecyclerAdapter.getPosi()+1);
+                recyclerView.smoothScrollToPosition(eventRecyclerAdapter.getItemCount()-1);
+//                recyclerView.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        recyclerView.smoothScrollToPosition(eventRecyclerAdapter.getItemCount()-1);
+//                    }
+//                });
+            }
+        }
     }
 
     @Override
@@ -126,6 +152,13 @@ public class EventFragment extends Fragment implements SensorEventListener {
     @Override
     public void onResume() {
         super.onResume();
-        sensorManager.registerListener((SensorEventListener) context, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, sensorAcc, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(this);
     }
 }

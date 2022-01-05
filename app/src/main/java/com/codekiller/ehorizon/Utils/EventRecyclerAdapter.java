@@ -14,10 +14,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.codekiller.ehorizon.AddingActivity;
+import com.codekiller.ehorizon.Fragments.AdminLoginFragment;
 import com.codekiller.ehorizon.HomeActivity;
 import com.codekiller.ehorizon.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -32,6 +37,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.ViewHolder> {
@@ -43,6 +49,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     ProgressDialog progressDialog;
     Toaster toaster;
     String who;
+    int posi;
 
     public EventRecyclerAdapter(List<Events> list, Context context, String who) {
         this.who = who;
@@ -67,12 +74,13 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        setPosi(position);
         Events events = list.get(position);
         holder.titleView.setText(events.getTitle());
         holder.coordinateView.setText("- "+events.getCoordinatorName()+" from "+events.getDept());
         holder.descriptionView.setText(events.getDescription());
         holder.dateView.setText(events.getStartDate()+" - "+events.getEndDate());
-        Glide.with(context).load(events.getPictureUrl().equals("default")?R.drawable.notes_image:events.getPictureUrl()).into(holder.eventImage);
+        Glide.with(context).load(events.getPictureUrl().equals("default")?R.drawable.event_gif:events.getPictureUrl()).into(holder.eventImage);
         if(events.getFormLink().length()!=0){
             holder.linkView.setVisibility(View.VISIBLE);
             holder.linkView.setText(events.getFormLink());
@@ -93,6 +101,10 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                 progressDialog.show();
                 String pushKey = databaseReference.push().getKey();
                 final UserField[] userField = new UserField[1];
+                if(events.getParticipators()==null) events.setParticipators(new ArrayList<>());
+                events.getParticipators().add(HomeActivity.userId);
+                databaseReferenceEvents.child(events.getPushKey())
+                        .setValue(events);
                 databaseReferenceUser.child(HomeActivity.userId)
                         .addValueEventListener(new ValueEventListener() {
                             @Override
@@ -111,6 +123,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
+                                                refresh();
                                                 toaster.toast("registered successfully");
                                                 progressDialog.dismiss();
                                             }
@@ -122,6 +135,16 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                                 toaster.toast("something went wrong");
                             }
                         });
+            }
+        });
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                context.startActivity(new Intent(context, AdminLoginFragment.class).putStringArrayListExtra("participators", (ArrayList<String>) events.getParticipators()));
+//                new HomeActivity().loadFragment(new AdminLoginFragment(context, (ArrayList<String>) events.getParticipators()));
+                FragmentTransaction mFragmentTransaction = ((FragmentActivity)context).getSupportFragmentManager().beginTransaction();
+                mFragmentTransaction.replace(R.id.frame, new AdminLoginFragment(context, (ArrayList<String>) events.getParticipators()));
+                mFragmentTransaction.addToBackStack(null).commit();
             }
         });
         holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -142,7 +165,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
                                                     toaster.toast("deleted successfully");
-                                                    notifyDataSetChanged();
+                                                    refresh();
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {
@@ -161,9 +184,20 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         });
     }
 
+    public void refresh(){
+        this.notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public int getPosi() {
+        return posi;
+    }
+
+    public void setPosi(int posi) {
+        this.posi = posi;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -182,6 +216,12 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             registerBtn = itemView.findViewById(R.id.register_btn);
             editBtn = itemView.findViewById(R.id.edit_icon);
             cardView = itemView.findViewById(R.id.relative_layout);
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
     }
 }

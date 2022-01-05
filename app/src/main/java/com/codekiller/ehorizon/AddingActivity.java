@@ -37,6 +37,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AddingActivity extends AppCompatActivity {
@@ -104,7 +105,7 @@ public class AddingActivity extends AppCompatActivity {
             Glide.with(this).load(events.getPictureUrl()).into(imageView);
         }
 
-        startDateLayout.setOnClickListener(new View.OnClickListener() {
+        startDateLayout.getEditText().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(AddingActivity.this, new DatePickerDialog.OnDateSetListener() {
@@ -118,7 +119,7 @@ public class AddingActivity extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
-        endDateLayout.setOnClickListener(new View.OnClickListener() {
+        endDateLayout.getEditText().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(AddingActivity.this, new DatePickerDialog.OnDateSetListener() {
@@ -170,8 +171,10 @@ public class AddingActivity extends AppCompatActivity {
                                                     public void onSuccess(Uri uri) {
                                                         String pushKey = obj!=null?events.getPushKey():databaseReference.push().getKey();
                                                         Events events1 = null;
-                                                        if(obj==null) events1 = new Events(title,dept,startDate,endDate,description, finalFormlink,uri==null?events!=null?events.getPictureUrl():"default":uri.toString(),coordinator,isRegistrationNeed,pushKey);
-                                                        else{
+                                                        if(obj==null) {
+                                                            events1 = new Events(title, dept, startDate, endDate, description, finalFormlink, uri == null ? events != null ? events.getPictureUrl() : "default" : uri.toString(), coordinator, isRegistrationNeed, pushKey);
+                                                            events1.setParticipators(new ArrayList<>());
+                                                        }else{
                                                             events.setCoordinatorName(coordinator);
                                                             events.setDept(dept);
                                                             events.setDescription(description);

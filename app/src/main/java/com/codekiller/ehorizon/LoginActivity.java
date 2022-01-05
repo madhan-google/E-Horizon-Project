@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Logging In");
         progressDialog.setCanceledOnTouchOutside(false);
 
-        Glide.with(this).load(R.drawable.loading_gif).into(mainImage);
+        Glide.with(this).load(R.drawable.monkey_gif).into(mainImage);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

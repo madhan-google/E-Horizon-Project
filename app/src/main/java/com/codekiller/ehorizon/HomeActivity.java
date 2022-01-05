@@ -11,6 +11,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -48,10 +49,10 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         list.add(new MenuItem("Events", R.drawable.bg4));
         list.add(new MenuItem("About", R.drawable.bg6));
         list.add(new MenuItem("Logout", R.drawable.bg3));
-        if(who!=null&&who.equals("admin")) list.add(new MenuItem("Admin", R.drawable.bg5));
+//        if(who!=null&&who.equals("admin")) list.add(new MenuItem("Admin", R.drawable.bg5));
         navigationDrawer.setMenuItemList(list);
         navigationDrawer.setAppbarTitleTV("Home");
-        navigationDrawer.setAppbarColor(android.R.color.holo_blue_light);
+        navigationDrawer.setAppbarColor(android.R.color.transparent);
         loadFragment(new HomeFragment(this));
         navigationDrawer.setOnMenuItemClickListener(new SNavigationDrawer.OnMenuItemClickListener() {
             @Override
@@ -65,19 +66,20 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
                         break;
                     case 2:
 //                        loadFragment(new AdminLoginFragment(HomeActivity.this));
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://kongu.ac.in/contact.php")));
                         break;
                     case 3:
                         FirebaseAuth.getInstance().signOut();
-//                        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                         finish();
                         break;
                     case 4:
-                        loadFragment(new AdminLoginFragment(HomeActivity.this));
+//                        loadFragment(new AdminLoginFragment(HomeActivity.this, new ArrayList<>()));
                 }
             }
         });
     }
-    private void loadFragment(Fragment fragment) {
+    public void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.addToBackStack(null);
 //        transaction.attach(fragment);
@@ -110,7 +112,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             if(event.values[0]<5) finish();
         }
         if(event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
-            Log.d(TAG, "onSensorChanged: x = "+event.values[0]+" y = "+event.values[1]+" z = "+event.values[2]);
+//            Log.d(TAG, "onSensorChanged: y = "+event.values[1]);
         }
     }
 

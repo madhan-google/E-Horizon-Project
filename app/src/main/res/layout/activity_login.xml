@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/login_bg"
     android:padding="10dp"
     tools:context=".Fragments.AdminLoginFragment">
 
@@ -21,8 +22,8 @@
 
     <ImageView
         android:id="@+id/anime1"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_below="@id/main_text"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp" />
@@ -92,12 +93,12 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:text="Don't have an account"
-        android:textColor="@android:color/holo_red_dark" />
+        android:textColor="#ff0000" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/forgot_text"
-        android:textColor="@android:color/holo_red_dark"
+        android:textColor="#ff0000"
         android:text="Forgot password"
         android:layout_below="@id/register_text"
         android:layout_alignParentRight="true"

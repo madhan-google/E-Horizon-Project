@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UserDetails">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/main_anime"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/name_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/main_anime"
+            android:layout_marginBottom="20dp"
+            android:text="name"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/dept_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name_view"
+            android:layout_marginBottom="20dp"
+            android:text="department"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/roll_no_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dept_view"
+            android:layout_marginBottom="20dp"
+            android:text="roll no"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/call_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/roll_no_view"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="50dp"
+            android:src="@drawable/ic_call" />
+
+        <ImageView
+            android:id="@+id/mail_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/roll_no_view"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:src="@drawable/ic_mail" />
+    </RelativeLayout>
+</ScrollView>

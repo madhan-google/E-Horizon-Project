@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg5"
     tools:context=".AddingActivity">
 
     <RelativeLayout
@@ -167,7 +168,7 @@
             android:layout_below="@id/form_link_text"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="10dp"
-            android:text="Ragistration Need ?"
+            android:text="Registration Need ?"
             android:textSize="18sp" />
 
         <RadioGroup

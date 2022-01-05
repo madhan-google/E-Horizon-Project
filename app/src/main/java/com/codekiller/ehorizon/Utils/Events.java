@@ -1,7 +1,12 @@
 package com.codekiller.ehorizon.Utils;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Events {
     String title, dept, startDate, endDate ,description, formLink, pictureUrl, coordinatorName, pushKey;
+    List<String> participators;
     boolean isRegisterNeed;
 
     public Events() {
@@ -19,6 +24,15 @@ public class Events {
         this.coordinatorName = coordinatorName;
         this.isRegisterNeed = isRegisterNeed;
         this.pushKey = pushKey;
+        participators = new ArrayList<>();
+    }
+
+    public List<String> getParticipators() {
+        return participators;
+    }
+
+    public void setParticipators(List<String> participators) {
+        this.participators = participators;
     }
 
     public String getTitle() {
