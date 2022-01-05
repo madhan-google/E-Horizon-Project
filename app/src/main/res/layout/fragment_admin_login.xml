@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="10dp"
+    android:background="@drawable/bg15"
     tools:context=".Fragments.AdminLoginFragment">
 
     <TextView

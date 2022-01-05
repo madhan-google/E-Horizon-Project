@@ -24,7 +24,7 @@ public class Events {
         this.coordinatorName = coordinatorName;
         this.isRegisterNeed = isRegisterNeed;
         this.pushKey = pushKey;
-        participators = new ArrayList<>();
+        this.participators = new ArrayList<>();
     }
 
     public List<String> getParticipators() {

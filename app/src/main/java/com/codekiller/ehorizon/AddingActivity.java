@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -62,7 +63,7 @@ public class AddingActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
 
-    Events events;
+    Events events = null;
     String obj;
 
     @Override
@@ -92,6 +93,8 @@ public class AddingActivity extends AppCompatActivity {
 
         obj = getIntent().getStringExtra("what");
         if(obj!=null){
+            Log.d(TAG, "onCreate: obj - "+obj);
+            events = new Events();
             events = new Gson().fromJson(obj, Events.class);
             mainView.setText("update event");
             addBtn.setText("Update");
@@ -156,7 +159,8 @@ public class AddingActivity extends AppCompatActivity {
                 String endDate = endDateLayout.getEditText().getText().toString();
                 String formlink = formLinkLayout.getEditText().getText().toString();
                 formlink = ok(formlink)?formlink:"no link";
-                if(ok(title)&&ok(description)&&ok(dept)&&ok(startDate)&&ok(coordinator)&&ok(endDate)){
+                if(events!=null){
+                    Log.d(TAG, "onClick: obj - "+events.getPictureUrl());
                     if(imageUrl!=null){
                         progressDialog.show();
                         StorageReference storageReference1 = storageReference.child("IMG_"+System.currentTimeMillis()+".jpg");
@@ -169,22 +173,96 @@ public class AddingActivity extends AppCompatActivity {
                                                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                     @Override
                                                     public void onSuccess(Uri uri) {
-                                                        String pushKey = obj!=null?events.getPushKey():databaseReference.push().getKey();
-                                                        Events events1 = null;
-                                                        if(obj==null) {
-                                                            events1 = new Events(title, dept, startDate, endDate, description, finalFormlink, uri == null ? events != null ? events.getPictureUrl() : "default" : uri.toString(), coordinator, isRegistrationNeed, pushKey);
-                                                            events1.setParticipators(new ArrayList<>());
-                                                        }else{
-                                                            events.setCoordinatorName(coordinator);
-                                                            events.setDept(dept);
-                                                            events.setDescription(description);
-                                                            events.setEndDate(endDate);
-                                                            events.setFormLink(finalFormlink);
-                                                            events.setEndDate(endDate);
-                                                            events.setTitle(title);
-                                                        }
+                                                        String pushKey = events.getPushKey();
+                                                        events.setTitle(title);
+                                                        events.setEndDate(endDate);
+                                                        events.setFormLink(finalFormlink);
+                                                        events.setDescription(description);
+                                                        events.setCoordinatorName(coordinator);
+                                                        events.setDept(dept);
+                                                        events.setStartDate(startDate);
+//                                                        Events events1 = new Events(title, dept, startDate, endDate, description, finalFormlink, uri.toString(), coordinator, isRegistrationNeed, pushKey);
                                                         databaseReference.child(pushKey)
-                                                                .setValue(obj!=null?events:events1)
+                                                                .setValue(events)
+                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        toaster.toast(e.getMessage());
+                                                                        progressDialog.dismiss();
+                                                                    }
+                                                                })
+                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                    @Override
+                                                                    public void onSuccess(Void aVoid) {
+                                                                        toaster.toast("Event has been added successfully");
+                                                                        finish();
+                                                                        progressDialog.dismiss();
+                                                                    }
+                                                                });
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        toaster.toast(e.getMessage());
+                                                        progressDialog.dismiss();
+                                                    }
+                                                });
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        toaster.toast(e.getMessage());
+                                        progressDialog.dismiss();
+                                    }
+                                });
+                    }else{
+                        String finalFormlink = formlink;
+//                        Events ev = events;
+                        String pushKey = events.getPushKey();
+                        events.setTitle(title);
+                        events.setEndDate(endDate);
+                        events.setFormLink(finalFormlink);
+                        events.setDescription(description);
+                        events.setCoordinatorName(coordinator);
+                        events.setDept(dept);
+                        events.setStartDate(startDate);
+                        databaseReference.child(pushKey)
+                                .setValue(events)
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        toaster.toast(e.getMessage());
+                                        progressDialog.dismiss();
+                                    }
+                                })
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        toaster.toast("Event has been added successfully");
+                                        finish();
+                                        progressDialog.dismiss();
+                                    }
+                                });
+                    }
+                }else if(ok(title)&&ok(description)&&ok(dept)&&ok(startDate)&&ok(coordinator)&&ok(endDate)){
+                    if(imageUrl!=null){
+                        progressDialog.show();
+                        StorageReference storageReference1 = storageReference.child("IMG_"+System.currentTimeMillis()+".jpg");
+                        String finalFormlink = formlink;
+                        storageReference1.putFile(imageUrl)
+                                .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                        storageReference1.getDownloadUrl()
+                                                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                    @Override
+                                                    public void onSuccess(Uri uri) {
+                                                        String pushKey = databaseReference.push().getKey();
+                                                        Events events1 = new Events(title, dept, startDate, endDate, description, finalFormlink, uri.toString(), coordinator, isRegistrationNeed, pushKey);
+                                                        databaseReference.child(pushKey)
+                                                                .setValue(events1)
                                                                 .addOnFailureListener(new OnFailureListener() {
                                                                     @Override
                                                                     public void onFailure(@NonNull Exception e) {

@@ -95,6 +95,7 @@ public class EventFragment extends Fragment implements SensorEventListener {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    list.clear();
                      for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                          list.add(dataSnapshot.getValue(Events.class));
                      }

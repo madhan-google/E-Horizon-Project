@@ -59,12 +59,33 @@ public class AdminLoginFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         if(list!=null) {
-            for (String key : list) {
-                databaseReference.child(key).addValueEventListener(new ValueEventListener() {
+            Log.d(TAG, "onCreateView: lsit - "+list);
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        UserField userField = dataSnapshot.getValue(UserField.class);
+                        Log.d(TAG, "onDataChange: user id - "+userField.getUserid());
+                        if(list.contains(userField.getUserid())) userList.add(userField);
+                    }
+                    Log.d(TAG, "onDataChange: user list - "+userList);
+                    registerUserAdapter = new RegisterUserAdapter(userList, context);
+                    registerUserAdapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(registerUserAdapter);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            /*for (String key : list) {
+                DatabaseReference reference = databaseReference.child(key);
+                reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         userList.add(snapshot.getValue(UserField.class));
-//                        Log.d(TAG, "onDataChange: user list - "+userList);
+                        Log.d(TAG, "onDataChange: user list - "+userList);
                         registerUserAdapter = new RegisterUserAdapter(userList, context);
                         registerUserAdapter.notifyDataSetChanged();
                         recyclerView.setAdapter(registerUserAdapter);
@@ -75,7 +96,7 @@ public class AdminLoginFragment extends Fragment {
 
                     }
                 });
-            }
+            }*/
         }
         Log.d(TAG, "onCreateView: userlist - "+userList);
 

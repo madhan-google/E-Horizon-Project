@@ -56,7 +56,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         this.list = list;
         this.context = context;
 //        this.databaseReference = databaseReference;
-        databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
+//        databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
         databaseReferenceUser = FirebaseDatabase.getInstance().getReference("Users");
         databaseReferenceEvents = FirebaseDatabase.getInstance().getReference("Events");
         progressDialog = new ProgressDialog(context);
@@ -86,6 +86,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             holder.linkView.setText(events.getFormLink());
         }
         if(events.isRegisterNeed()) holder.registerBtn.setVisibility(View.VISIBLE);
+        if(who.equals("admin")) holder.registerBtn.setVisibility(View.GONE);
         if(who!=null&&who.equals("admin")) holder.editBtn.setVisibility(View.VISIBLE);
         holder.editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,13 +100,27 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             public void onClick(View v) {
                 progressDialog.setMessage("registering..");
                 progressDialog.show();
-                String pushKey = databaseReference.push().getKey();
+//                String pushKey = databaseReference.push().getKey();
                 final UserField[] userField = new UserField[1];
                 if(events.getParticipators()==null) events.setParticipators(new ArrayList<>());
                 events.getParticipators().add(HomeActivity.userId);
                 databaseReferenceEvents.child(events.getPushKey())
-                        .setValue(events);
-                databaseReferenceUser.child(HomeActivity.userId)
+                        .setValue(events)
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                progressDialog.dismiss();
+                                toaster.toast(e.getMessage());
+                            }
+                        })
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                progressDialog.dismiss();
+                                toaster.toast("registered successfully");
+                            }
+                        });
+                /*databaseReferenceUser.child(HomeActivity.userId)
                         .addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -134,7 +149,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                             public void onCancelled(@NonNull DatabaseError error) {
                                 toaster.toast("something went wrong");
                             }
-                        });
+                        });*/
             }
         });
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -142,9 +157,11 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             public void onClick(View v) {
 //                context.startActivity(new Intent(context, AdminLoginFragment.class).putStringArrayListExtra("participators", (ArrayList<String>) events.getParticipators()));
 //                new HomeActivity().loadFragment(new AdminLoginFragment(context, (ArrayList<String>) events.getParticipators()));
-                FragmentTransaction mFragmentTransaction = ((FragmentActivity)context).getSupportFragmentManager().beginTransaction();
-                mFragmentTransaction.replace(R.id.frame, new AdminLoginFragment(context, (ArrayList<String>) events.getParticipators()));
-                mFragmentTransaction.addToBackStack(null).commit();
+                if(who.equals("admin")){
+                    FragmentTransaction mFragmentTransaction = ((FragmentActivity)context).getSupportFragmentManager().beginTransaction();
+                    mFragmentTransaction.replace(R.id.frame, new AdminLoginFragment(context, (ArrayList<String>) events.getParticipators()));
+                    mFragmentTransaction.addToBackStack(null).commit();
+                }
             }
         });
         holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -165,7 +182,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
                                                     toaster.toast("deleted successfully");
-                                                    refresh();
+//                                                    refresh();
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {
@@ -216,12 +233,6 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             registerBtn = itemView.findViewById(R.id.register_btn);
             editBtn = itemView.findViewById(R.id.edit_icon);
             cardView = itemView.findViewById(R.id.relative_layout);
-            cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
         }
     }
 }

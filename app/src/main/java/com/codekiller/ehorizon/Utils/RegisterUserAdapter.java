@@ -43,7 +43,7 @@ public class RegisterUserAdapter extends RecyclerView.Adapter<RegisterUserAdapte
         UserField userField = list.get(position);
         holder.nameView.setText(userField.getName());
         holder.deptView.setText("- "+userField.getDepartment()+" '"+userField.getSection()+"'");
-//        holder.eventNameView.setText("Register in ");
+        holder.eventNameView.setText("Register in ");
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
