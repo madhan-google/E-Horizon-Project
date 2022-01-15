@@ -32,12 +32,12 @@
         android:id="@+id/mail_id"
         style="@style/input_text_layout"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/anime1"
         android:padding="5dp"
         app:endIconDrawable="@drawable/ic_cancel"
         app:endIconMode="clear_text"
-        app:helperText="Mail Id">
+        app:helperText="Mandatory">
 
         <EditText
             android:layout_width="match_parent"
@@ -49,13 +49,13 @@
         android:id="@+id/password_text"
         style="@style/input_text_layout"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/mail_id"
         android:layout_marginTop="10dp"
         android:padding="5dp"
         app:endIconDrawable="@drawable/ic_cancel"
         app:endIconMode="clear_text"
-        app:helperText="Mail Id">
+        app:helperText="Mandatory">
 
         <EditText
             android:layout_width="match_parent"
@@ -71,6 +71,7 @@
         android:layout_below="@id/password_text"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="50dp"
+        app:cornerRadius="6dp"
         android:layout_marginTop="10dp"
         android:text="login" />
 
@@ -81,6 +82,7 @@
         android:layout_below="@id/password_text"
         android:layout_alignParentRight="true"
         android:layout_marginTop="10dp"
+        app:cornerRadius="6dp"
         android:layout_marginRight="50dp"
         android:text="cancel" />
 

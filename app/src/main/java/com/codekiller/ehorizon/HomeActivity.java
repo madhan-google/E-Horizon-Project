@@ -52,7 +52,8 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
 //        if(who!=null&&who.equals("admin")) list.add(new MenuItem("Admin", R.drawable.bg5));
         navigationDrawer.setMenuItemList(list);
         navigationDrawer.setAppbarTitleTV("Home");
-        navigationDrawer.setAppbarColor(android.R.color.transparent);
+        navigationDrawer.setAppbarColor(android.R.color.black);
+        navigationDrawer.setAppbarTitleTextColor(R.color.white);
         loadFragment(new HomeFragment(this));
         navigationDrawer.setOnMenuItemClickListener(new SNavigationDrawer.OnMenuItemClickListener() {
             @Override

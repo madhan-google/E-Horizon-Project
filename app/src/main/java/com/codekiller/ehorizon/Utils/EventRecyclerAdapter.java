@@ -79,8 +79,11 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         holder.titleView.setText(events.getTitle());
         holder.coordinateView.setText("- "+events.getCoordinatorName()+" from "+events.getDept());
         holder.descriptionView.setText(events.getDescription());
-        holder.dateView.setText(events.getStartDate()+" - "+events.getEndDate());
-        Glide.with(context).load(events.getPictureUrl().equals("default")?R.drawable.event_gif:events.getPictureUrl()).into(holder.eventImage);
+        holder.dateView.setText("from "+events.getStartDate()+" to "+events.getEndDate());
+        Glide.with(context)
+                .load(events.getPictureUrl().equals("default")?R.drawable.event_gif:events.getPictureUrl())
+                .centerCrop()
+                .into(holder.eventImage);
         if(events.getFormLink().length()!=0){
             holder.linkView.setVisibility(View.VISIBLE);
             holder.linkView.setText(events.getFormLink());

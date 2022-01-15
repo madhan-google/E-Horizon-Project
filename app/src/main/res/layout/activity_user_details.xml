@@ -16,43 +16,57 @@
             android:id="@+id/main_anime"
             android:layout_width="150dp"
             android:layout_height="150dp"
+            android:layout_marginBottom="10dp"
             android:layout_centerHorizontal="true" />
 
         <TextView
             android:id="@+id/name_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
+            android:gravity="top|left"
             android:layout_below="@id/main_anime"
             android:layout_marginBottom="20dp"
             android:text="name"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/dept_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_below="@id/name_view"
             android:layout_marginBottom="20dp"
             android:text="department"
+            android:gravity="left|top"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/roll_no_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_below="@id/dept_view"
             android:layout_marginBottom="20dp"
             android:text="roll no"
+            android:gravity="top|left"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@id/roll_no_view"
+            android:id="@+id/section_view"
+            android:textSize="25sp"
+            android:gravity="left|top"
+            android:text="section"
+            />
 
         <ImageView
             android:id="@+id/call_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_below="@id/roll_no_view"
+            android:layout_below="@id/section_view"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="50dp"
             android:src="@drawable/ic_call" />
@@ -61,7 +75,7 @@
             android:id="@+id/mail_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_below="@id/roll_no_view"
+            android:layout_below="@id/section_view"
             android:layout_alignParentRight="true"
             android:layout_marginRight="50dp"
             android:src="@drawable/ic_mail" />

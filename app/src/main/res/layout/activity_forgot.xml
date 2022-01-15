@@ -9,12 +9,12 @@
     tools:context=".ForgotActivity">
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         app:helperText="Mandatory"
         app:endIconDrawable="@drawable/ic_cancel"
         style="@style/input_text_layout"
         app:endIconMode="clear_text"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:id="@+id/mail_id"
         android:padding="5dp"
         >

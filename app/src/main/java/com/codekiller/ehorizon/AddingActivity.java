@@ -92,10 +92,10 @@ public class AddingActivity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference("EventsPhotos");
 
         obj = getIntent().getStringExtra("what");
-        if(obj!=null){
+        events = new Gson().fromJson(obj, Events.class);
+        if(events!=null){
             Log.d(TAG, "onCreate: obj - "+obj);
-            events = new Events();
-            events = new Gson().fromJson(obj, Events.class);
+//            events = new Events();
             mainView.setText("update event");
             addBtn.setText("Update");
             titleLayout.getEditText().setText(events.getTitle());

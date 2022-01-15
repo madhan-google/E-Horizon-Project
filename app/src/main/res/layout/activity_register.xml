@@ -11,16 +11,16 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         >
+
         <ImageView
+            android:id="@+id/main_anime"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:id="@+id/main_anime"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            />
+            android:layout_marginTop="10dp" />
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             app:helperText="Mandatory"
             style="@style/input_text_layout"
             app:endIconMode="clear_text"
@@ -39,7 +39,7 @@
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             app:helperText="Mandatory"
             style="@style/input_text_layout"
             app:endIconMode="clear_text"
@@ -58,7 +58,7 @@
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             app:helperText="Mandatory"
             style="@style/input_text_layout"
             app:endIconMode="clear_text"
@@ -77,7 +77,7 @@
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="120dp"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             app:helperText="Mandatory"
             style="@style/input_text_layout"
             app:endIconMode="clear_text"
@@ -95,8 +95,8 @@
                 />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="100dp"
-            android:layout_height="70dp"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
             app:helperText="Mandatory"
             style="@style/input_text_layout"
             app:endIconMode="clear_text"
@@ -115,7 +115,7 @@
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="120dp"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             app:helperText="Mandatory"
             style="@style/input_text_layout"
             app:endIconMode="clear_text"
@@ -134,7 +134,7 @@
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             app:helperText="Mandatory"
             style="@style/input_text_layout"
             app:endIconMode="clear_text"
@@ -152,7 +152,7 @@
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             app:helperText="Mandatory"
             style="@style/input_text_layout"
             app:endIconMode="clear_text"
@@ -170,7 +170,7 @@
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             app:helperText="Mandatory"
             style="@style/input_text_layout"
             app:endIconMode="clear_text"
@@ -189,7 +189,7 @@
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             app:helperText="Mandatory"
             style="@style/input_text_layout"
             app:endIconMode="clear_text"
@@ -210,6 +210,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/register_btn"
+            app:cornerRadius="6dp"
             android:layout_below="@id/confirm_pass_text"
             android:layout_centerHorizontal="true"
             android:text="register"

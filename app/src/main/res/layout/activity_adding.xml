@@ -183,16 +183,16 @@
             <RadioButton
                 android:id="@+id/radio1"
                 android:layout_width="80dp"
-                android:onClick="onRadioButtonClicked"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="30dp"
+                android:onClick="onRadioButtonClicked"
                 android:text="Yes" />
 
             <RadioButton
                 android:id="@+id/radio2"
                 android:layout_width="80dp"
-                android:onClick="onRadioButtonClicked"
                 android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
                 android:text="No" />
         </RadioGroup>
 
@@ -203,7 +203,8 @@
             android:layout_below="@id/radio_group"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:text="add event" />
+            android:text="add event"
+            app:cornerRadius="6dp" />
     </RelativeLayout>
 
 </ScrollView>

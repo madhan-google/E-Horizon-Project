@@ -9,13 +9,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:background="@drawable/round_bg"
+        android:padding="10dp"
         >
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:text="name"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:id="@+id/name_text"
             />
         <TextView
@@ -26,12 +27,12 @@
             android:gravity="end"
             android:text="- mca a"
             />
+
         <TextView
+            android:id="@+id/event_name_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/event_name_text"
-            android:text="Registered in Hackthaon"
             android:layout_below="@id/dept_text"
-            />
+            android:text="Registered in Hackthaon" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
